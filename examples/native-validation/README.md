@@ -1,13 +1,13 @@
 # Synthetic result example
 
-These are unchanged numerical and figure outputs from the independent native-agent
+These are numerical and figure exports from the independent native-agent
 evaluation of [the original two-level fixture](../synthetic-paper.md). They contain
 no published-paper material, research data or private conversation content.
 
 ![Synthetic ground-state curve with reference markers](fig1.png)
 
 - [Observed values](observed.json): three rows at lambda = 0, 0.5 and 1.
-- [Original vector figure](fig1.svg): 201 directly evaluated points, without interpolation.
+- [Original vector figure](fig1.svg): 201 directly evaluated plotting points; comparison uses the three exact parameter rows.
 - [Review image](fig1.png): offline raster of the original SVG, used for actual visual inspection.
 
 Maximum absolute difference from the specified binary64 reference values was zero,

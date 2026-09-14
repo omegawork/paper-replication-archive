@@ -53,8 +53,7 @@ The unit suite contains labelled test-double agent identities. It checks runtime
 invariants and cannot prove native-agent independence. The native synthetic
 evaluation is a separate acceptance exercise using the original fixture in
 `examples/synthetic-paper.md`, real platform-returned identities and distinct
-producer/Critic instances. Its final measured results are recorded in the release
-validation addendum.
+producer/Critic instances. Its final measured results are recorded below.
 
 The CI workflow executes the same suite and clean-install checks on Windows,
 Linux and macOS with Python 3.10 and 3.14. Release artifacts contain no cases or
@@ -79,6 +78,16 @@ needed no new user decision or scientific rerun. Eleven internal diagnostics add
 no reproduction successes. The [synthetic result example](../examples/native-validation/README.md)
 publishes the observed values, original SVG and inspected PNG only; it is not a
 standalone Evidence Bundle or a published-paper reproduction claim.
+
+The native evaluation completed all six stages from Stage0 through StageD using
+10 actual native instances, with independent stage reviews passing. Its final
+50-event audit passed with no state-view discrepancies; final claims bind the last
+event. It used one inherited task scope, zero extra authorization questions and
+zero user-decision forms. Numerical acceptance, actual-image review and final
+archive completion were recorded separately. Native end-to-end behavior was tested
+in Codex on Windows with Python 3.10.9; other native-agent hosts remain unverified.
+Private instructions, machine paths, reviewer identities and conversation logs are
+excluded from this public report and release package.
 
 ## Compatibility and limits
 
