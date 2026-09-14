@@ -16,7 +16,9 @@ from concurrent.futures import ThreadPoolExecutor
 from _support import FIXTURES, make_plan, run_python, write_json
 import evidence_runtime as rt
 import evidence_execution as execution
-from runtime_model import append_event, audit_case, load_json, load_state, read_events, render_case, sha256_file
+from runtime_model import (append_event, audit_case, load_json, load_state, read_events, render_case,
+                           render_chat_card, render_completion_evidence, render_progress,
+                           render_target_matrix, sha256_file)
 from runtime_control import _dependency_errors, _target_review_errors
 from runtime_schema import _validate, validate_document, SchemaValidationError
 from scope_authorization import create_scope, bind_plan, load_ledger, reserve_run, scope_differences
@@ -274,13 +276,14 @@ class V5RegressionTests(unittest.TestCase):
         calls = 0
         def fail_tail(path, **kwargs):
             nonlocal calls
-            if Path(path) == self.source:
+            if Path(path).resolve() == self.source.resolve():
                 calls += 1
                 if calls >= 3:
                     raise OSError('synthetic failed source inventory')
             return original(path, **kwargs)
         with patch.object(rt, '_inventory', side_effect=fail_tail):
             execution.run_worker(bundle)
+        self.assertGreaterEqual(calls, 3, 'the failure must actually be injected on every platform')
         self.assertTrue((bundle / 'evidence_index.json').exists())
         self.assertEqual(rt.verify_bundle(bundle)['claim_status'], 'INCONCLUSIVE')
         self.assertEqual(load_ledger(self.scope_path)['runs']['synthetic-crashed-run']['status'], 'finished')
@@ -466,6 +469,30 @@ class V5RegressionTests(unittest.TestCase):
         report['summary'] = 'Changed after recorded review'
         write_json(case / 'work/target-review.json', report)
         self.assertTrue(_target_review_errors(case, state, result['target_id']))
+
+    def test_views_separate_target_preflight_and_presentation_from_stage_state(self):
+        case = self.init()
+        state = load_state(case)
+        state['runtime'].update(current_stage='StageC', active_target='Fig1')
+        state['stages']['StageC']['preflight']['targets']['Fig1'] = {'result': 'PASS'}
+        state['targets']['Fig1'] = {'target_id': 'Fig1', 'claim': 'Ground energy',
+            'paper_anchors': ['Eq.1'], 'route': 'numerical', 'run_state': 'completed',
+            'claim_status': 'REPRODUCED_WITHIN_ACCEPTANCE', 'comparison_verdict': 'within_acceptance',
+            'evidence_plan': 'plan.json', 'presentation_status': 'needs_repair',
+            'scientific_attempt_count': 1, 'engineering_repair_count': 2,
+            'independent_review': {'decision': 'pass'}}
+        card = render_chat_card(state)
+        self.assertIn('Aggregate preflight', card)
+        self.assertIn('Target preflight', card)
+        self.assertIn('| 1/2 | PASS | pass | needs_repair |', card)
+        for rendered in (card, render_progress(state, []), render_completion_evidence(state),
+                         render_target_matrix({'schema_version': 5, 'targets': list(state['targets'].values())})):
+            self.assertIn('Presentation', rendered)
+            self.assertIn('needs_repair', rendered)
+        legacy = copy.deepcopy(state)
+        legacy['schema_version'] = 4
+        self.assertNotIn('Presentation', render_progress(legacy, []))
+        self.assertNotIn('Target preflight', render_chat_card(legacy))
 
     def test_negative_summary_needs_no_user_decision_form(self):
         case = self.init()

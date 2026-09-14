@@ -487,13 +487,14 @@ def render_agent_trace(state: dict[str, Any]) -> str:
 
 
 def render_target_matrix(matrix: dict[str, Any]) -> str:
+    v5 = matrix.get('schema_version') == 5
     lines = [
         "# Target Matrix",
         "",
         "> Generated from `work/target_matrix.json`. Do not edit this Markdown file.",
         "",
-        "| Target | Claim | Paper anchors | Route | Run state | Claim status | Comparison | Evidence plan |",
-        "|---|---|---|---|---|---|---|---|",
+        "| Target | Claim | Paper anchors | Route | Run state | Claim status | Comparison | Evidence plan |" + (" Presentation |" if v5 else ""),
+        "|---|---|---|---|---|---|---|---|" + ("---|" if v5 else ""),
     ]
     for target in matrix["targets"]:
         lines.append(
@@ -507,13 +508,14 @@ def render_target_matrix(matrix: dict[str, Any]) -> str:
                     escape_table(target["claim_status"]),
                     escape_table(target["comparison_verdict"]),
                     escape_table(target["evidence_plan"]),
-                )
+                ) + ((escape_table(target.get('presentation_status', 'not_checked')), ) if v5 else ())
             ) + " |"
         )
     return "\n".join(lines) + "\n"
 
 
 def render_progress(state: dict[str, Any], events: list[dict[str, Any]]) -> str:
+    v5 = state.get('schema_version') == 5
     current_stage = state["runtime"]["current_stage"]
     active_target = state["runtime"].get("active_target")
     lines = [
@@ -545,11 +547,11 @@ def render_progress(state: dict[str, Any], events: list[dict[str, Any]]) -> str:
         )
     lines.extend([
         "", "## Target States / 目标状态", "",
-        "| Target | Route | Run state | Claim status | Comparison | Verified bundle |",
-        "|---|---|---|---|---|---|",
+        "| Target | Route | Run state | Claim status | Comparison | Verified bundle |" + (" Presentation |" if v5 else ""),
+        "|---|---|---|---|---|---|" + ("---|" if v5 else ""),
     ])
     if not state["targets"]:
-        lines.append("| - | - | not_started | NOT_ATTEMPTED | not_evaluated | - |")
+        lines.append("| - | - | not_started | NOT_ATTEMPTED | not_evaluated | - |" + (" not_checked |" if v5 else ""))
     for target_id, target in sorted(state["targets"].items()):
         verified = target.get("verified_evidence") or {}
         lines.append(
@@ -558,6 +560,7 @@ def render_progress(state: dict[str, Any], events: list[dict[str, Any]]) -> str:
             f"{escape_table(target.get('claim_status', 'NOT_ATTEMPTED'))} | "
             f"{escape_table(target.get('comparison_verdict', 'not_evaluated'))} | "
             f"{escape_table(verified.get('manifest_sha256'))} |"
+            + (f" {escape_table(target.get('presentation_status', 'not_checked'))} |" if v5 else "")
         )
     lines.extend([
         "", "## Recent Timeline / 最近时间线", "",
@@ -577,6 +580,31 @@ def render_chat_card(state: dict[str, Any], action: str | None = None) -> str:
     stage = state["stages"][stage_id]
     target_id = state["runtime"].get("active_target")
     target = state["targets"].get(target_id, {}) if target_id else {}
+    if state.get('schema_version') == 5:
+        lines = [
+            '**PRA Progress / 复现进度**', '',
+            '| Stage | Run state | Aggregate preflight | Stage review | Next action |',
+            '|---|---|---|---|---|',
+            f"| {escape_table(stage_id)} | {escape_table(stage['run_state'])} | "
+            f"{escape_table((stage['preflight']['aggregate'] or {}).get('result', 'pending'))} | "
+            f"{escape_table(stage['review']['decision'])} | {escape_table(state['runtime']['next_action'])} |",
+        ]
+        if target:
+            # Target checks belong to StageC even when a later stage retains the active target.
+            preflight = state['stages']['StageC']['preflight']['targets'].get(target_id) or {}
+            lines.extend([
+                '', '| Target | Scientific/Engineering | Target preflight (StageC) | Target review | Presentation | Run state | Claim status |',
+                '|---|---|---|---|---|---|---|',
+                f"| {escape_table(target_id)} | {target.get('scientific_attempt_count', 0)}/{target.get('engineering_repair_count', 0)} | "
+                f"{escape_table(preflight.get('result', 'pending'))} | "
+                f"{escape_table((target.get('independent_review') or {}).get('decision', 'pending'))} | "
+                f"{escape_table(target.get('presentation_status', 'not_checked'))} | "
+                f"{escape_table(target.get('run_state', 'not_started'))} | "
+                f"{escape_table(target.get('claim_status', 'NOT_ATTEMPTED'))} |",
+            ])
+        if action:
+            lines.extend(['', f'action: `{action}`'])
+        return '\n'.join(lines) + '\n'
     lines = [
         "**PRA Progress / 复现进度**",
         "",
@@ -596,16 +624,17 @@ def render_chat_card(state: dict[str, Any], action: str | None = None) -> str:
 
 
 def render_completion_evidence(state: dict[str, Any]) -> str:
+    v5 = state.get('schema_version') == 5
     lines = [
         "# Completion Evidence Table",
         "",
         "> Generated from runtime state and verified Evidence Index records.",
         "",
-        "| Target | Claim status | Comparison | Route | Bundle | Manifest SHA-256 |",
-        "|---|---|---|---|---|---|",
+        "| Target | Claim status | Comparison | Route | Bundle | Manifest SHA-256 |" + (" Presentation |" if v5 else ""),
+        "|---|---|---|---|---|---|" + ("---|" if v5 else ""),
     ]
     if not state["targets"]:
-        lines.append("| - | NOT_ATTEMPTED | not_evaluated | - | - | - |")
+        lines.append("| - | NOT_ATTEMPTED | not_evaluated | - | - | - |" + (" not_checked |" if v5 else ""))
     for target_id, target in sorted(state["targets"].items()):
         verification = target.get("verified_evidence") or {}
         lines.append(
@@ -613,6 +642,7 @@ def render_completion_evidence(state: dict[str, Any]) -> str:
             f"{escape_table(target.get('comparison_verdict', 'not_evaluated'))} | "
             f"{escape_table(target.get('route'))} | {escape_table(target.get('evidence_bundle'))} | "
             f"{escape_table(verification.get('manifest_sha256'))} |"
+            + (f" {escape_table(target.get('presentation_status', 'not_checked'))} |" if v5 else "")
         )
     return "\n".join(lines) + "\n"
 
