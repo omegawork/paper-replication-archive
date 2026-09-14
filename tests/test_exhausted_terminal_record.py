@@ -362,7 +362,7 @@ class ExhaustedTerminalRecordTests(unittest.TestCase):
     def test_standard_record_path_and_schema_negative_flags(self):
         case, _, _, _ = self._exhausted_case()
         path = record_path(case, TARGET_ID)
-        self.assertEqual(path, case / "work" / "exhausted_terminal_records" / "Fig9.json")
+        self.assertEqual(path, case.resolve() / "work" / "exhausted_terminal_records" / "Fig9.json")
         stored = json.loads(path.read_text(encoding="utf-8"))
         self.assertFalse(stored["scientific_positive_allowed"])
         self.assertFalse(stored["terminal_state"]["evidence_bundle_present"])

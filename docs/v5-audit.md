@@ -22,6 +22,14 @@ review state that could cover an unreviewed target. These now have strict valida
 or per-target evidence/report binding. The four-attempt limit is enforced without
 requiring four attempts or fabricated Critic records for early negative closure.
 
+The first six-job CI run exposed a path-alias defect on hosted Windows and macOS:
+an imported worker could extract artifact paths before resolving short names or
+`/var` aliases, producing inconsistent verification. Worker entry paths are now
+resolved before extraction; a cross-platform `..` alias regression covers this
+without requiring symbolic-link privileges. The legacy filename assertion also
+compares resolved paths. Linux had passed the initial run; the complete matrix is
+rerun for the corrected implementation.
+
 ## Independent implementation review
 
 Real native review of the implementation found and prompted fixes for source

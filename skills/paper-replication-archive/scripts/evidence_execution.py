@@ -162,10 +162,11 @@ def start(plan_path, approval_path, bundle, *, detach=False):
 def run_worker(bundle, *, preparation_error=None):
     import evidence_runtime as rt
     from comparison_engine import compare
+    bundle = bundle.resolve()
     plan = rt.load_plan(bundle / 'plan.json')
     receipt = load_json(bundle / 'approval.json')
     run = load_json(bundle / 'run_record.json')
-    source = Path(plan['source']['path'])
+    source = Path(plan['source']['path']).resolve()
     snapshot = bundle / 'source_snapshot'
     output = bundle / 'output'
     output.mkdir(exist_ok=True)

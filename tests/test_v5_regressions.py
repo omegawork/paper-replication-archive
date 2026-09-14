@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 from _support import FIXTURES, make_plan, run_python, write_json
 import evidence_runtime as rt
 import evidence_execution as execution
-from runtime_model import append_event, audit_case, load_json, load_state, render_case, sha256_file
+from runtime_model import append_event, audit_case, load_json, load_state, read_events, render_case, sha256_file
 from runtime_control import _dependency_errors, _target_review_errors
 from runtime_schema import _validate, validate_document, SchemaValidationError
 from scope_authorization import create_scope, bind_plan, load_ledger, reserve_run, scope_differences
@@ -259,6 +259,15 @@ class V5RegressionTests(unittest.TestCase):
         self.assertEqual(load_ledger(self.scope_path)['runs']['synthetic-crashed-run']['status'], 'finished')
         self.assertEqual(before, {p.relative_to(bundle).as_posix(): p.read_bytes() for p in bundle.rglob('*') if p.is_file()})
 
+    def test_worker_resolves_path_alias_before_recording_artifact_paths(self):
+        bundle = self.prepare_crash()
+        traversed = bundle.parent / 'traversed'
+        traversed.mkdir()
+        alias = traversed / '..' / bundle.name
+        execution.run_worker(alias)
+        result = rt.verify_bundle(bundle)
+        self.assertEqual(result['verification_status'], 'verified', result)
+
     def test_inventory_failure_still_seals_negative_evidence(self):
         bundle = self.prepare_crash()
         original = rt._inventory
@@ -392,6 +401,8 @@ class V5RegressionTests(unittest.TestCase):
         self.assertEqual(command.returncode, 0, command.stderr)
         target = load_state(case)['targets'][result['target_id']]
         self.assertEqual(target['presentation_status'], 'passed')
+        self.assertEqual(load_state(case)['runtime']['current_stage'], 'StageC')
+        self.assertEqual(read_events(case)[-1]['payload']['stage'], 'StageC')
         self.assertEqual(target['claim_status'], numeric['claim_status'])
         self.assertEqual(target['verified_evidence']['manifest_sha256'], numeric['manifest_sha256'])
         review['presentation_manifest_sha256'] = '0' * 64

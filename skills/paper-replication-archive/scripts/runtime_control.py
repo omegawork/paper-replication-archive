@@ -966,7 +966,7 @@ def command_record_presentation(args):
                   presentation_review={"agent_id": args.reviewer_id, "report": report,
                                        "sha256": sha256_file(args.case_dir / report)})
     return _persist(args.case_dir, "target_recorded", {"target_id": args.target_id, "target": target,
-        "stage": "StageD", "next_action": "Deliver the numerical result and reviewed presentation"}, args.now)
+        "stage": state['runtime']['current_stage'], "next_action": "Continue with the numerical result and reviewed presentation"}, args.now)
 
 
 def build_parser() -> argparse.ArgumentParser:
