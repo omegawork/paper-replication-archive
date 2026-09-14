@@ -1,0 +1,30 @@
+{
+  "schema_version": 5,
+  "target_id": "Fig1",
+  "unit": "fixed coupling = 1",
+  "table": {
+    "columns": [
+      "lambda",
+      "ground_state_energy"
+    ],
+    "rows": [
+      {
+        "lambda": 0.0,
+        "ground_state_energy": -1.0
+      },
+      {
+        "lambda": 0.5,
+        "ground_state_energy": -1.118033988749895
+      },
+      {
+        "lambda": 1.0,
+        "ground_state_energy": -1.4142135623730951
+      }
+    ]
+  },
+  "method": "ordered eigenvalues derived from matrix entries",
+  "basis_order": [
+    "first matrix row",
+    "second matrix row"
+  ]
+}

@@ -21,7 +21,7 @@ def validate(case_dir: Path) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Lint generated v4 Completion Evidence Table")
+    parser = argparse.ArgumentParser(description="Lint the generated Completion Evidence Table")
     parser.add_argument("case_dir", type=Path)
     args = parser.parse_args()
     try:

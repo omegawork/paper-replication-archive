@@ -19,7 +19,7 @@ def bundle_paths(path: Path) -> list[Path]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Reverify v4 Evidence Bundle comparisons")
+    parser = argparse.ArgumentParser(description="Reverify Evidence Bundle comparisons")
     parser.add_argument("path", type=Path)
     args = parser.parse_args()
     bundles = bundle_paths(args.path)

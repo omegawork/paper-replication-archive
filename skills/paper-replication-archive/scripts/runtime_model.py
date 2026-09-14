@@ -540,9 +540,11 @@ def render_progress(state: dict[str, Any], events: list[dict[str, Any]]) -> str:
     for stage_id in STAGE_ORDER:
         stage = state["stages"][stage_id]
         preflight = stage["preflight"]["aggregate"]
+        preflight_status = preflight['result'] if preflight else (
+            'not_applicable' if v5 and stage_id in {'Stage0', 'StageD'} else 'pending')
         lines.append(
             f"| {stage_id} | {escape_table(stage['run_state'])} | {stage['attempt_count']} | "
-            f"{stage['repair_count']} | {escape_table(preflight['result'] if preflight else 'pending')} | "
+            f"{stage['repair_count']} | {escape_table(preflight_status)} | "
             f"{escape_table(stage['review']['decision'])} | {escape_table(stage['review']['agent_id'])} |"
         )
     lines.extend([
@@ -581,12 +583,14 @@ def render_chat_card(state: dict[str, Any], action: str | None = None) -> str:
     target_id = state["runtime"].get("active_target")
     target = state["targets"].get(target_id, {}) if target_id else {}
     if state.get('schema_version') == 5:
+        preflight_status = (stage['preflight']['aggregate'] or {}).get(
+            'result', 'not_applicable' if stage_id in {'Stage0', 'StageD'} else 'pending')
         lines = [
             '**PRA Progress / 复现进度**', '',
             '| Stage | Run state | Aggregate preflight | Stage review | Next action |',
             '|---|---|---|---|---|',
             f"| {escape_table(stage_id)} | {escape_table(stage['run_state'])} | "
-            f"{escape_table((stage['preflight']['aggregate'] or {}).get('result', 'pending'))} | "
+            f"{escape_table(preflight_status)} | "
             f"{escape_table(stage['review']['decision'])} | {escape_table(state['runtime']['next_action'])} |",
         ]
         if target:

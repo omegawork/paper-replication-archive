@@ -13,7 +13,7 @@ from runtime_model import load_case, load_state, read_events, render_progress
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Lint generated v4 progress panel")
+    parser = argparse.ArgumentParser(description="Lint the generated progress panel")
     parser.add_argument("case_dir", type=Path)
     args = parser.parse_args()
     try:

@@ -27,8 +27,11 @@ an imported worker could extract artifact paths before resolving short names or
 `/var` aliases, producing inconsistent verification. Worker entry paths are now
 resolved before extraction; a cross-platform `..` alias regression covers this
 without requiring symbolic-link privileges. The legacy filename assertion also
-compares resolved paths. Linux had passed the initial run; the complete matrix is
-rerun for the corrected implementation.
+compares resolved paths. A later Windows 3.14 run exposed transient access-denied
+errors while competing writers deleted an event lock. That condition now preserves
+the event log and permits a bounded retry; persistent access errors retain their
+filesystem diagnosis. Regression injection verifies that no event is written
+without acquiring the lock.
 
 ## Independent implementation review
 
@@ -57,6 +60,25 @@ The CI workflow executes the same suite and clean-install checks on Windows,
 Linux and macOS with Python 3.10 and 3.14. Release artifacts contain no cases or
 native conversation logs. Platform compatibility claims are limited to the tools
 and host behavior actually exercised; untested native-agent hosts remain unverified.
+
+## Release validation
+
+The complete 83-test suite passed on all six combinations of Windows, Linux and
+macOS with Python 3.10 and 3.14. Every job also passed skill lint, release packaging,
+fresh installation, managed-hash checking, installed CLI startup and removal.
+The [implementation CI run](https://github.com/omegawork/paper-replication-archive/actions/runs/34874664997)
+records these results for commit `d7ba118`. The original 47 baseline tests remain
+in the suite alongside the added regressions.
+
+The original two-level fixture produced the three specified lower-eigenvalue
+values with maximum absolute difference 0 from the prescribed binary64 references,
+within the fixed 1e-12 tolerance. One scientific run consumed 0.734 seconds of
+recorded child wall time; reopening its sealed bundle left all 18 files and the
+budget ledger unchanged. Metadata-import and offline visual-inspection adaptations
+needed no new user decision or scientific rerun. Eleven internal diagnostics added
+no reproduction successes. The [synthetic result example](../examples/native-validation/README.md)
+publishes the observed values, original SVG and inspected PNG only; it is not a
+standalone Evidence Bundle or a published-paper reproduction claim.
 
 ## Compatibility and limits
 

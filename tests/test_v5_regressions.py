@@ -493,6 +493,10 @@ class V5RegressionTests(unittest.TestCase):
         legacy['schema_version'] = 4
         self.assertNotIn('Presentation', render_progress(legacy, []))
         self.assertNotIn('Target preflight', render_chat_card(legacy))
+        state['runtime']['current_stage'] = 'StageD'
+        state['stages']['StageD']['run_state'] = 'completed'
+        self.assertIn('| StageD | completed | not_applicable |', render_chat_card(state))
+        self.assertIn('| StageD | completed | 0 | 0 | not_applicable |', render_progress(state, []))
 
     def test_negative_summary_needs_no_user_decision_form(self):
         case = self.init()

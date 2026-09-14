@@ -50,7 +50,7 @@ def validate(case_dir: Path) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Lint canonical v4 Target Matrix")
+    parser = argparse.ArgumentParser(description="Lint the canonical Target Matrix")
     parser.add_argument("case_dir", type=Path)
     args = parser.parse_args()
     errors = validate(args.case_dir)
@@ -59,7 +59,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}", file=sys.stderr)
         return 1
-    print("OK: canonical v4 Target Matrix passed")
+    print("OK: canonical Target Matrix passed")
     return 0
 
 
