@@ -1,0 +1,11 @@
+{
+  "schema_version": 5,
+  "stage": "StageA",
+  "target_id": null,
+  "reviewer_agent_id": "REPLACE_WITH_PLATFORM_AGENT_ID",
+  "decision": "fail",
+  "summary": "REPLACE",
+  "findings": [],
+  "required_repairs": [],
+  "evidence_reviewed": []
+}

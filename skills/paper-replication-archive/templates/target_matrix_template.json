@@ -1,0 +1,22 @@
+{
+  "schema_version": 5,
+  "case_id": "REPLACE",
+  "round": 1,
+  "targets": [
+    {
+      "target_id": "Fig3b",
+      "claim_id": "Claim-C001",
+      "claim": "REPLACE_WITH_TESTABLE_CLAIM",
+      "paper_anchors": ["Figure-Fig3b", "Formula-F003"],
+      "route": "independent_reimplementation",
+      "run_state": "preview_ready",
+      "claim_status": "NOT_ATTEMPTED",
+      "comparison_verdict": "not_evaluated",
+      "acceptance": {"type": "scalar", "absolute_tolerance": 0.001},
+      "evidence_plan": "work/evidence_plan_Fig3b.json",
+      "approval": null,
+      "reference_anchor_mode": "paper_table_values",
+      "paper_anchor_plan": "Compare the declared table value and unit."
+    }
+  ]
+}

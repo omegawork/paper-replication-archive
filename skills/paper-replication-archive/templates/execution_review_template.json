@@ -1,0 +1,10 @@
+{
+  "schema_version": 5,
+  "source": "platform_spawn_result",
+  "producer_agent_id": "ACTUAL_PRODUCER_ID",
+  "reviewer_agent_id": "ACTUAL_REVIEWER_ID",
+  "decision": "fail",
+  "plan_sha256": "REPLACE_WITH_CURRENT_HASH",
+  "source_tree_hash": "REPLACE_WITH_CURRENT_HASH",
+  "findings": "Describe actual checks and findings. Use pass only after independent review."
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "task_mode", "paper", "created_at", "execution_policy", "case_metadata"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "case_id": {"type": "string", "minLength": 1},
+    "task_mode": {"enum": ["deep_reading_only", "reproduce_all_data_figures", "reproduce_specified_targets"]},
+    "paper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "source"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1}
+      }
+    },
+    "created_at": {"type": "string", "minLength": 1},
+    "execution_policy": {"enum": ["preview_only", "approved_execution"]},
+    "case_metadata": {"type": "object"}
+  }
+}

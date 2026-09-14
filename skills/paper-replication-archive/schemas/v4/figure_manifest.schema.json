@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-figure-manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "paper_sha256", "panels"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "paper_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "panels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["panel_id", "figure_id", "page", "coordinate_system", "page_size", "crop_box", "caption", "panel_label", "crop_sha256", "extraction_method", "confidence", "human_checked"],
+        "properties": {
+          "panel_id": {"type": "string", "minLength": 1},
+          "figure_id": {"type": "string", "minLength": 1},
+          "page": {"type": "integer", "minimum": 1},
+          "coordinate_system": {"enum": ["pdf_points_top_left", "pdf_points_bottom_left", "rendered_pixels_top_left"]},
+          "page_size": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}},
+          "crop_box": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}},
+          "caption": {"type": "string"},
+          "panel_label": {"type": ["string", "null"]},
+          "crop_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+          "extraction_method": {"enum": ["manual_crop", "pdf_renderer", "automatic_candidate", "screenshot"]},
+          "confidence": {"enum": ["high", "medium", "low"]},
+          "human_checked": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

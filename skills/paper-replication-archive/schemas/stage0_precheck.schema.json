@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v5-stage0-precheck",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "paper_manifest",
+    "source_hashes",
+    "code_availability",
+    "data_availability",
+    "license_status",
+    "threat_assessment",
+    "resource_preview",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "paper_manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_hashes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "[0-9a-f]{64}"
+          }
+        }
+      }
+    },
+    "code_availability": {
+      "enum": [
+        "available",
+        "partial",
+        "missing",
+        "unknown"
+      ]
+    },
+    "data_availability": {
+      "enum": [
+        "available",
+        "partial",
+        "missing",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "license_status": {
+      "enum": [
+        "verified",
+        "restricted",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "threat_assessment": {
+      "enum": [
+        "reviewed_low_risk",
+        "unknown",
+        "suspected_malicious",
+        "not_applicable"
+      ]
+    },
+    "resource_preview": {
+      "type": "object"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

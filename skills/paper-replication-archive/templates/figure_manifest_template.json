@@ -1,0 +1,20 @@
+{
+  "schema_version": 5,
+  "paper_sha256": "REPLACE_WITH_PAPER_SHA256",
+  "panels": [
+    {
+      "panel_id": "Figure-Fig3b",
+      "figure_id": "Figure-Fig3",
+      "page": 5,
+      "coordinate_system": "rendered_pixels_top_left",
+      "page_size": [1200, 1600],
+      "crop_box": [0, 0, 100, 100],
+      "caption": "REPLACE",
+      "panel_label": "b",
+      "crop_sha256": "REPLACE_WITH_CROP_SHA256",
+      "extraction_method": "manual_crop",
+      "confidence": "medium",
+      "human_checked": false
+    }
+  ]
+}

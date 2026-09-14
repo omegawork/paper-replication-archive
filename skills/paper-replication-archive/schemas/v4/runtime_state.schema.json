@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-runtime-state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case", "stages", "targets", "agents", "decisions", "runtime"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "case": {"type": "object"},
+    "stages": {"type": "object"},
+    "targets": {"type": "object"},
+    "agents": {"type": "object"},
+    "decisions": {"type": "object"},
+    "runtime": {
+      "type": "object",
+      "required": ["current_stage", "last_event_id", "last_event_hash", "next_action", "spawn_capability_confirmed"],
+      "properties": {
+        "current_stage": {"enum": ["Stage0", "StageA", "StageB", "StageC", "StageCSummary", "StageD"]},
+        "last_event_id": {"type": ["string", "null"]},
+        "last_event_hash": {"type": ["string", "null"]},
+        "next_action": {"type": "string"},
+        "spawn_capability_confirmed": {"type": "boolean"}
+      }
+    }
+  }
+}

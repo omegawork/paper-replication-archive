@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v5-execution-review",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "source": {
+      "const": "platform_spawn_result"
+    },
+    "producer_agent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer_agent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "enum": [
+        "pass",
+        "fail",
+        "blocked"
+      ]
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "source_tree_hash": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "findings": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_repair_verified": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "source",
+    "producer_agent_id",
+    "reviewer_agent_id",
+    "decision",
+    "plan_sha256",
+    "source_tree_hash",
+    "findings"
+  ],
+  "additionalProperties": true
+}

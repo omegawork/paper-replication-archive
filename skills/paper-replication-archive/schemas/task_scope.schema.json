@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v5-task-scope",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "kind": {
+      "const": "task_scope"
+    },
+    "scope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy": {
+      "enum": [
+        "task_scoped",
+        "preview_only",
+        "per_run"
+      ]
+    },
+    "instruction": {
+      "type": "object",
+      "required": [
+        "text",
+        "source_ref"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "contract",
+          "per_run_budget",
+          "initial_plan_sha256"
+        ],
+        "properties": {
+          "contract": {
+            "type": "object"
+          },
+          "per_run_budget": {
+            "type": "object"
+          },
+          "initial_plan_sha256": {
+            "type": "string",
+            "pattern": "[0-9a-f]{64}"
+          }
+        }
+      }
+    },
+    "total_budget": {
+      "type": "object",
+      "required": [
+        "wall_time_seconds",
+        "disk_mb",
+        "max_runs"
+      ],
+      "properties": {
+        "wall_time_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "disk_mb": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_runs": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "scope_id",
+    "recorded_at",
+    "policy",
+    "instruction",
+    "targets",
+    "total_budget"
+  ],
+  "additionalProperties": false
+}

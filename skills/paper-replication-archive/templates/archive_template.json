@@ -1,0 +1,10 @@
+{
+  "schema_version": 5,
+  "title": "REPLACE",
+  "paper": {},
+  "reading_summary": "REPLACE",
+  "claims": [],
+  "negative_results": [],
+  "blockers": [],
+  "integrity_files": ["reports/final_response_allowed_claims.json"]
+}

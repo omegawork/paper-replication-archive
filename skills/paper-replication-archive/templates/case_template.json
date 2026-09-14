@@ -1,0 +1,13 @@
+{
+  "schema_version": 5,
+  "case_id": "REPLACE",
+  "task_mode": "reproduce_specified_targets",
+  "paper": {
+    "title": "REPLACE",
+    "source": "REPLACE"
+  },
+  "created_at": "REPLACE_WITH_TIMEZONE_TIMESTAMP",
+  "execution_policy": "task_scoped",
+  "case_metadata": {},
+  "language": "en"
+}

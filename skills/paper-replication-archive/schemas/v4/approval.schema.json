@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plan_id", "plan_sha256", "approved_at", "approved_by", "allow_execute", "acknowledged_capabilities"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "plan_id": {"type": "string", "minLength": 1},
+    "plan_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "approved_at": {"type": "string", "minLength": 1},
+    "approved_by": {"type": "string", "minLength": 1},
+    "allow_execute": {"const": true},
+    "acknowledged_capabilities": {"type": "object"}
+  }
+}

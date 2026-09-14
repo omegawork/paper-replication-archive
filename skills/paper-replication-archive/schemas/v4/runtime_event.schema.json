@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-runtime-event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sequence", "event_id", "timestamp", "event_type", "previous_hash", "payload", "hash"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "sequence": {"type": "integer", "minimum": 1},
+    "event_id": {"type": "string", "pattern": "evt-[0-9]{6}"},
+    "timestamp": {"type": "string", "minLength": 1},
+    "event_type": {"enum": ["case_initialized", "case_migrated", "agent_registered", "agent_finished", "stage_updated", "review_recorded", "heartbeat_recorded", "target_recorded", "decision_recorded", "preflight_recorded", "evidence_verified"]},
+    "previous_hash": {"type": ["string", "null"]},
+    "payload": {"type": "object"},
+    "hash": {"type": "string", "pattern": "[0-9a-f]{64}"}
+  }
+}

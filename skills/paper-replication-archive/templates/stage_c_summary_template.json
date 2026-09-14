@@ -1,0 +1,10 @@
+{
+  "schema_version": 5,
+  "round": 1,
+  "actual_work": [],
+  "critic_failures": [],
+  "targets": {},
+  "most_important_conclusion": "REPLACE",
+  "acceptance_files": [],
+  "decision_panels": {}
+}

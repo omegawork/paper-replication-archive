@@ -1,0 +1,4 @@
+{
+  "runs": [{"seed": 1, "value": 0.9}, {"seed": 2, "value": 1.0}, {"seed": 3, "value": 1.1}],
+  "reference": {"mean": 1.0, "std": 0.1}
+}

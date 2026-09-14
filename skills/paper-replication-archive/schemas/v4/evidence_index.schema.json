@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-evidence-index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "bundle_version", "target_id", "claim_id", "route", "plan_sha256", "run_record_sha256", "observation_sha256", "comparison_sha256", "manifest_sha256", "verification_status", "claim_status", "comparison_verdict"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "bundle_version": {"const": 1},
+    "target_id": {"type": "string"},
+    "claim_id": {"type": "string"},
+    "route": {"enum": ["official_artifact_replay", "independent_reimplementation", "figure_digitization", "visual_reconstruction", "not_applicable_schematic"]},
+    "plan_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "run_record_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "observation_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "comparison_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "manifest_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "verification_status": {"enum": ["verified", "invalid", "blocked", "manual_review_required"]},
+    "claim_status": {"enum": ["NOT_ATTEMPTED", "REPRODUCED_WITHIN_ACCEPTANCE", "NOT_REPRODUCED", "INCONCLUSIVE", "BLOCKED", "MANUAL_REVIEW_REQUIRED"]},
+    "comparison_verdict": {"type": "string"}
+  }
+}

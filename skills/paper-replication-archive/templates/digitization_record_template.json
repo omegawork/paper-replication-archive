@@ -1,0 +1,16 @@
+{
+  "schema_version": 5,
+  "record_id": "Digitization-D001",
+  "panel_id": "Figure-Fig3b",
+  "source_image_sha256": "REPLACE",
+  "axes": {"x_scale": "linear", "y_scale": "linear"},
+  "calibration_points": [
+    {"pixel": [0, 100], "data": [0, 0]},
+    {"pixel": [100, 0], "data": [1, 1]}
+  ],
+  "exported_points": [],
+  "estimated_uncertainty": {"x": null, "y": null, "notes": "REPLACE"},
+  "operator": "REPLACE",
+  "tool": {"name": "REPLACE", "version": "REPLACE"},
+  "review_status": "pending_review"
+}

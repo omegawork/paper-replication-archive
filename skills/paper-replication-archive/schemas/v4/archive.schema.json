@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-archive",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "title", "paper", "reading_summary", "claims", "negative_results", "blockers", "integrity_files"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "title": {"type": "string", "minLength": 1},
+    "paper": {"type": "object"},
+    "reading_summary": {"type": "string"},
+    "claims": {"type": "array", "items": {"type": "object"}},
+    "negative_results": {"type": "array", "items": {"type": "object"}},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "integrity_files": {"type": "array", "items": {"type": "string"}}
+  }
+}

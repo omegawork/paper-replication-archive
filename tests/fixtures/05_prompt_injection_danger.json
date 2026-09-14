@@ -1,0 +1,4 @@
+{
+  "untrusted_material": "README.md",
+  "expected_execution": "refused_without_external_sandbox"
+}

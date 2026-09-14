@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v5-paper-manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "paper_id",
+    "source_url_or_doi",
+    "local_file",
+    "acquired_at",
+    "sha256",
+    "license_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "paper_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_url_or_doi": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "acquired_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "license_status": {
+      "enum": [
+        "verified",
+        "restricted",
+        "unknown",
+        "not_applicable"
+      ]
+    }
+  }
+}

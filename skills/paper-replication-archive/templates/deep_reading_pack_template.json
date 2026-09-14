@@ -1,0 +1,18 @@
+{
+  "schema_version": 5,
+  "paper_id": "Paper-P001",
+  "language": "zh-CN",
+  "note_sections": [
+    {"heading": "研究问题与动机", "content": "REPLACE"},
+    {"heading": "模型与方法", "content": "REPLACE"},
+    {"heading": "主要结果链条", "content": "REPLACE"},
+    {"heading": "证据锚点", "content": "REPLACE"},
+    {"heading": "局限与不确定性", "content": "REPLACE"}
+  ],
+  "structure": [{"section": "1", "pages": "1", "purpose": "REPLACE", "evidence_anchors": ["page 1"]}],
+  "formulas": [],
+  "figures": [],
+  "coverage": [{"stable_id": "Claim-C001", "type": "claim", "paper_anchor": "page 1", "covered": true, "notes": "REPLACE"}],
+  "claims": [],
+  "parameters": []
+}

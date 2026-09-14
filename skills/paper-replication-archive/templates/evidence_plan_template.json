@@ -1,0 +1,100 @@
+{
+  "schema_version": 5,
+  "plan_id": "Plan-Fig3b-r1",
+  "target_id": "Fig3b",
+  "claim": {
+    "claim_id": "Claim-C001",
+    "text": "REPLACE_WITH_TESTABLE_CLAIM",
+    "paper_anchors": [
+      "Figure-Fig3b",
+      "Formula-F003"
+    ],
+    "route": "independent_reimplementation"
+  },
+  "source": {
+    "path": "REPLACE_WITH_ABSOLUTE_SOURCE_DIRECTORY",
+    "commit": null,
+    "tree_hash": "REPLACE_FROM_FINGERPRINT_SOURCE",
+    "dirty_diff_sha256": "REPLACE_FROM_FINGERPRINT_SOURCE"
+  },
+  "inputs": [],
+  "command": {
+    "argv": [
+      "python",
+      "{source}/run.py",
+      "--output",
+      "{output}/observed.json"
+    ],
+    "cwd": ".",
+    "environment": {}
+  },
+  "capabilities": {
+    "network": "forbidden",
+    "read_paths": [
+      "{source}"
+    ],
+    "write_paths": [
+      "{output}"
+    ],
+    "code_trust": "reviewed",
+    "external_sandbox": false,
+    "untrusted_materials": [
+      "README.md"
+    ]
+  },
+  "budget": {
+    "wall_time_seconds": 60,
+    "disk_mb": 10,
+    "output_count": 1,
+    "single_file_mb": 10,
+    "memory_mb": {
+      "value": 1024,
+      "enforcement": "advisory"
+    },
+    "gpu": {
+      "required": false,
+      "enforcement": "advisory"
+    }
+  },
+  "outputs": [
+    {
+      "path": "observed.json",
+      "kind": "machine_observation"
+    }
+  ],
+  "observation": {
+    "method": "json_path",
+    "artifact": "observed.json",
+    "selector": "value",
+    "unit": "REPLACE",
+    "bound_to_run": true
+  },
+  "comparison": {
+    "type": "scalar",
+    "reference": 0.0,
+    "acceptance": {
+      "rules": [
+        {
+          "metric": "absolute_error",
+          "max": 0.001
+        }
+      ],
+      "combine": "all"
+    },
+    "evidence_strength": "numeric",
+    "unit_conversion": {
+      "scale": 1.0,
+      "offset": 0.0
+    }
+  },
+  "blockers": [],
+  "scientific_contract": {
+    "model": "REPLACE_WITH_PAPER_MODEL",
+    "parameters": {},
+    "conventions": {},
+    "method": "REPLACE_WITH_REVIEWED_METHOD"
+  },
+  "execution_location": "local",
+  "operation_kind": "scientific",
+  "target_kind": "paper_result"
+}

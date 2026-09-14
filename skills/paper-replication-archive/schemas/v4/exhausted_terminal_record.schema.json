@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-exhausted-terminal-record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_version", "record_type", "verification_status", "target_id", "route", "terminal_state", "stage_c", "executor_agent_ids", "critic_agent_ids", "latest_critic", "supervisor_advice", "event_prefix", "engineering_evidence", "scientific_positive_allowed", "next_stage"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "record_version": {"const": 1},
+    "record_type": {"const": "exhausted_terminal_failure"},
+    "verification_status": {"const": "verified_terminal_failure"},
+    "target_id": {"type": "string", "pattern": "[A-Za-z0-9_][A-Za-z0-9_.()-]*"},
+    "route": {"enum": ["official_artifact_replay", "independent_reimplementation", "figure_digitization", "visual_reconstruction"]},
+    "terminal_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_state", "claim_status", "comparison_verdict", "accepted_evidence_rows", "evidence_bundle_present", "verified_evidence_present"],
+      "properties": {
+        "run_state": {"enum": ["failed", "blocked"]},
+        "claim_status": {"enum": ["INCONCLUSIVE", "BLOCKED"]},
+        "comparison_verdict": {"enum": ["not_evaluated", "blocked_unreadable_anchor", "blocked_missing_candidate"]},
+        "accepted_evidence_rows": {"type": "array", "maxItems": 0},
+        "evidence_bundle_present": {"const": false},
+        "verified_evidence_present": {"const": false}
+      }
+    },
+    "stage_c": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_count", "repair_count"],
+      "properties": {"attempt_count": {"const": 4}, "repair_count": {"const": 3}}
+    },
+    "executor_agent_ids": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "critic_agent_ids": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "latest_critic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_id", "finished_event_sequence", "finished_event_hash", "report"],
+      "properties": {
+        "agent_id": {"type": "string", "minLength": 1},
+        "finished_event_sequence": {"type": "integer", "minimum": 1},
+        "finished_event_hash": {"type": "string", "pattern": "[0-9a-f]{64}"},
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "size", "sha256", "decision"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "size": {"type": "integer", "minimum": 1},
+            "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+            "decision": {"enum": ["fail", "blocked"]}
+          }
+        }
+      }
+    },
+    "supervisor_advice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_id", "finished_event_sequence", "finished_event_hash", "outcome", "terminal_reason", "report"],
+      "properties": {
+        "agent_id": {"type": "string", "minLength": 1},
+        "finished_event_sequence": {"type": "integer", "minimum": 1},
+        "finished_event_hash": {"type": "string", "pattern": "[0-9a-f]{64}"},
+        "outcome": {"type": "string", "pattern": "BLOCKED:.+"},
+        "terminal_reason": {"type": "string", "minLength": 1},
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "size", "sha256"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "size": {"type": "integer", "minimum": 1},
+            "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"}
+          }
+        }
+      }
+    },
+    "event_prefix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_count", "last_event_id", "last_event_hash", "sha256"],
+      "properties": {
+        "event_count": {"type": "integer", "minimum": 1},
+        "last_event_id": {"type": "string", "pattern": "evt-[0-9]{6}"},
+        "last_event_hash": {"type": "string", "pattern": "[0-9a-f]{64}"},
+        "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"}
+      }
+    },
+    "engineering_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["root", "kind", "tree_sha256", "files"],
+        "properties": {
+          "root": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["file", "directory"]},
+          "tree_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "size", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "size": {"type": "integer", "minimum": 0},
+                "sha256": {"type": "string", "pattern": "[0-9a-f]{64}"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "scientific_positive_allowed": {"const": false},
+    "next_stage": {"const": "StageCSummary"}
+  }
+}

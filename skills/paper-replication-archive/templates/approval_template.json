@@ -1,0 +1,14 @@
+{
+  "schema_version": 5,
+  "plan_id": "REPLACE",
+  "plan_sha256": "REPLACE_WITH_CURRENT_PLAN_SHA256",
+  "approved_at": "REPLACE_WITH_TIMEZONE_TIMESTAMP",
+  "approved_by": "REPLACE_WITH_USER_IDENTITY_LABEL",
+  "allow_execute": true,
+  "acknowledged_capabilities": {
+    "network": "forbidden",
+    "write_paths": ["{output}"],
+    "budget": {},
+    "enforcement": {}
+  }
+}

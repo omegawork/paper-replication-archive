@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-critic-report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stage", "target_id", "reviewer_agent_id", "decision", "summary", "findings", "required_repairs", "evidence_reviewed"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "stage": {"enum": ["Stage0", "StageA", "StageB", "StageC", "StageCSummary", "StageD"]},
+    "target_id": {"type": ["string", "null"]},
+    "reviewer_agent_id": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["pass", "fail", "blocked"]},
+    "summary": {"type": "string", "minLength": 1},
+    "findings": {"type": "array", "items": {"type": "object"}},
+    "required_repairs": {"type": "array", "items": {"type": "string"}},
+    "evidence_reviewed": {"type": "array", "items": {"type": "string"}}
+  }
+}

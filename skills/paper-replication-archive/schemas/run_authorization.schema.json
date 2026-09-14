@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v5-run-authorization",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 5
+    },
+    "kind": {
+      "const": "run_authorization"
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan_sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "source_tree_hash": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "allow_execute": {
+      "type": "boolean",
+      "const": true
+    },
+    "origin": {
+      "const": "inherited_task_scope"
+    },
+    "scope_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "review": {
+      "type": "object"
+    },
+    "review_sha256": {
+      "type": "string",
+      "pattern": "[0-9a-f]{64}"
+    },
+    "bound_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "plan_id",
+    "plan_sha256",
+    "source_tree_hash",
+    "input_sha256",
+    "allow_execute",
+    "origin",
+    "scope_path",
+    "scope_sha256",
+    "scope",
+    "review",
+    "review_sha256",
+    "bound_at"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pra-v4-digitization-record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_id", "panel_id", "source_image_sha256", "axes", "calibration_points", "exported_points", "estimated_uncertainty", "operator", "tool", "review_status"],
+  "properties": {
+    "schema_version": {"const": 4},
+    "record_id": {"type": "string", "minLength": 1},
+    "panel_id": {"type": "string", "minLength": 1},
+    "source_image_sha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "axes": {
+      "type": "object",
+      "required": ["x_scale", "y_scale"],
+      "properties": {"x_scale": {"enum": ["linear", "log"]}, "y_scale": {"enum": ["linear", "log"]}}
+    },
+    "calibration_points": {"type": "array", "minItems": 2, "items": {"type": "object"}},
+    "exported_points": {"type": "array", "items": {"type": "object"}},
+    "estimated_uncertainty": {"type": "object"},
+    "operator": {"type": "string", "minLength": 1},
+    "tool": {"type": "object"},
+    "review_status": {"enum": ["pending_human_check", "human_checked", "degraded_unreadable"]}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 5,
+  "paper_manifest": "work/paper_manifest.json",
+  "source_hashes": [{"path": "reference/raw/paper.pdf", "sha256": "REPLACE"}],
+  "code_availability": "unknown",
+  "data_availability": "unknown",
+  "license_status": "unknown",
+  "threat_assessment": "unknown",
+  "resource_preview": {"execution_policy": "preview_only"},
+  "blockers": []
+}

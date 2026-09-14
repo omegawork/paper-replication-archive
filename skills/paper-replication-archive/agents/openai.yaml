@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Replication Archive"
+  short_description: "Evidence-bound paper reading and reproduction archive"
+  default_prompt: "Use $paper-replication-archive for the requested paper reading or reproduction archive mode."
+
+policy:
+  allow_implicit_invocation: true

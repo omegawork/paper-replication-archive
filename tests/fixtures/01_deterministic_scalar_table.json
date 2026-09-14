@@ -1,0 +1,7 @@
+{
+  "scalar": {"actual": 1.25, "reference": 1.25, "absolute_tolerance": 0.0},
+  "table": {
+    "columns": ["x", "y"],
+    "rows": [{"x": 0.0, "y": 1.0}, {"x": 1.0, "y": 2.0}]
+  }
+}

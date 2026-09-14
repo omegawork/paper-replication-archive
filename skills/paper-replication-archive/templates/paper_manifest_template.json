@@ -1,0 +1,9 @@
+{
+  "schema_version": 5,
+  "paper_id": "Paper-P001",
+  "source_url_or_doi": "REPLACE",
+  "local_file": "reference/raw/paper.pdf",
+  "acquired_at": "REPLACE_WITH_TIMEZONE_TIMESTAMP",
+  "sha256": "REPLACE_WITH_FILE_SHA256",
+  "license_status": "unknown"
+}
