@@ -29,8 +29,8 @@ uses `$CODEX_HOME/skills/paper-replication-archive`, or `~/.codex/skills/...` wh
 variable is unset. To update a locally modified installation, back it up, compare
 and merge the changes, then install into a fresh directory. There is no force flag.
 
-Release ZIPs include the skill, installer, documentation, synthetic fixture and
-SHA-256 checksums. Manual copying also works; managed checks require installation
+Release downloads include a ZIP with the skill, installer, documentation and
+synthetic fixture, plus a SHA-256 checksum file. Manual copying also works; managed checks require installation
 with the installer. Reload skills according to your host's documentation. Matching
 files does not prove that a running host has reloaded them.
 

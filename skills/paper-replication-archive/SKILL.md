@@ -52,6 +52,18 @@ commands. Edit the canonical Reading Pack JSON, not its generated Markdown.
 Ordinary status events do not regenerate narrative reports. Explicit `render-case`
 or a writing preflight refreshes those artifacts from their documented source.
 
+Canonical report paths are relative to the case root:
+
+| Edit this input | Generated output |
+|---|---|
+| `work/deep_reading_pack.json` | Reading Pack under `01_deep_reading/` |
+| `reports/stage_c_summary.json` | `reports/stage_c_summary.md` |
+| `work/archive.json` | `to_obsidian/Paper_Reproduction_Archive.md` |
+
+Keep these JSON inputs consistent with current verified evidence and regenerate
+their outputs after content repairs. The archive output directory does not own
+the canonical archive JSON.
+
 Report calculation status, presentation quality, comparison verdict and scientific
 acceptance separately. Label `internal_check` targets separately from `paper_result`.
 Unresolved targets do not require individual user approval merely to be documented.

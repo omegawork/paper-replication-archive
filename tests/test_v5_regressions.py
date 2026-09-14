@@ -520,6 +520,17 @@ class V5RegressionTests(unittest.TestCase):
         render_case(case)
         self.assertEqual(audit_case(case)['event_count'], 13)
 
+    def test_lock_access_error_preserves_events_and_allows_a_later_retry(self):
+        case = self.init()
+        before = audit_case(case)['event_count']
+        with patch('runtime_model.os.open', side_effect=PermissionError('synthetic delete-pending lock')):
+            with self.assertRaisesRegex(ValueError, 'writer is busy or lock is inaccessible'):
+                append_event(case, 'heartbeat_recorded', {'agent_id': 'synthetic'})
+        self.assertEqual(audit_case(case)['event_count'], before)
+        append_event(case, 'heartbeat_recorded', {'agent_id': 'synthetic'})
+        render_case(case, artifacts=False)
+        self.assertEqual(audit_case(case)['event_count'], before + 1)
+
 
 if __name__ == '__main__':
     unittest.main()

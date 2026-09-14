@@ -1171,6 +1171,11 @@ def append_event(case_dir, event_type, payload, *, timestamp=None):
         descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     except FileExistsError as exc:
         raise ValueError('case event writer is busy; observe/retry the same operation, do not ask for authorization') from exc
+    except PermissionError as exc:
+        # Windows can report access denied while another writer's lock is being
+        # deleted. Keep the event untouched and expose a bounded-retry condition;
+        # persistent errors still require inspecting the actual filesystem access.
+        raise ValueError(f'case event writer is busy or lock is inaccessible; retry briefly, then inspect filesystem access: {exc}') from exc
     try:
         os.write(descriptor, str(os.getpid()).encode())
         return _append_event_unlocked(case_dir, event_type, payload, timestamp=timestamp)
